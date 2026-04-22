@@ -16,7 +16,6 @@ import {
   Plus,
   ArrowRight,
   Calendar,
-  Bell,
   Settings,
   ChevronRight,
   MoreHorizontal,
@@ -269,11 +268,6 @@ export default function DashboardPage() {
             </p>
           </div>
           <div className="flex gap-3">
-                <Button variant="outline" size="icon" asChild className="border-[#4B2E76]/20 bg-white text-[#4B2E76] hover:bg-[#4B2E76]/5">
-                  <Link href="/dashboard/notifications">
-                    <Bell className="h-4 w-4" />
-                  </Link>
-                </Button>
             <Button variant="outline" size="icon" asChild className="border-[#4B2E76]/20 bg-white text-[#4B2E76] hover:bg-[#4B2E76]/5">
               <Link href="/settings">
                 <Settings className="h-4 w-4" />
@@ -706,13 +700,8 @@ export default function DashboardPage() {
               transition={{ delay: 0.5 }}
               className="rounded-2xl border border-[#4B2E76]/10 bg-white p-6 shadow-sm"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-foreground">
-                  Recent Activity
-                </h2>
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/dashboard/notifications">View all</Link>
-                </Button>
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold text-foreground">Recent activity</h2>
               </div>
               <div className="space-y-4">
                 {recentActivity.map((activity) => (

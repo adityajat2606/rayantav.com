@@ -1,20 +1,15 @@
-﻿'use client'
+﻿"use client"
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { PageShell } from '@/components/shared/page-shell'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog'
-import { useToast } from '@/components/ui/use-toast'
-import { mockPressAssets, mockPressCoverage } from '@/data/mock-data'
+import { useState } from "react"
+import Image from "next/image"
+import { Newspaper } from "lucide-react"
+import { PageShell } from "@/components/shared/page-shell"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useToast } from "@/components/ui/use-toast"
+import { L } from "@/components/shared/listing-ui"
+import { mockPressAssets, mockPressCoverage } from "@/data/mock-data"
 
 export default function PressPage() {
   const { toast } = useToast()
@@ -23,56 +18,52 @@ export default function PressPage() {
 
   return (
     <PageShell
-      title="Press"
-      description="Media resources, brand assets, and press coverage."
+      title="Press & media"
+      description="Brand assets, product language, and recent coverage—kept in the same calm purple and cream tone as the public site."
     >
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card className="border-border bg-card">
-          <CardContent className="p-6 space-y-3">
-            <h2 className="text-lg font-semibold text-foreground">Press Kit</h2>
-            <p className="text-sm text-muted-foreground">
-              Download logos, product screenshots, and brand guidelines for media use.
-            </p>
-            <div className="grid gap-2">
-              {mockPressAssets.map((asset) => (
-                <div key={asset.id} className="rounded-lg border border-border bg-secondary/40 px-4 py-3">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{asset.title}</p>
-                      <p className="text-xs text-muted-foreground">{asset.description}</p>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="secondary">{asset.fileType}</Badge>
-                      <Button size="sm" variant="outline" onClick={() => setActiveAssetId(asset.id)}>
-                        Preview
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() =>
-                          toast({
-                            title: 'Download started',
-                            description: `${asset.title} is downloading.`,
-                          })
-                        }
-                      >
-                        Download
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      <section className={`mb-10 ${L.heroBand}`}>
+        <div className="flex items-center gap-2 text-[#4B2E76]">
+          <Newspaper className="h-5 w-5" />
+          <span className="text-xs font-bold uppercase tracking-widest text-[#4B2E76]/60">For journalists</span>
+        </div>
+        <p className="mt-3 max-w-3xl text-sm leading-7 text-[#4B2E76]/75">
+          {`Use the kit for accurate logos and screenshots. When you describe the product, lead with the listing and discovery experience—it is what most visitors see first.`}
+        </p>
+      </section>
+
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-4">
+          <h2 className="text-lg font-bold text-[#4B2E76]">Press kit</h2>
+          {mockPressAssets.map((asset) => (
+            <div key={asset.id} className="flex flex-col gap-3 rounded-2xl border border-[#4B2E76]/10 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-[#4B2E76]">{asset.title}</p>
+                <p className="text-xs text-[#4B2E76]/60">{asset.description}</p>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge className="bg-[#4B2E76]/10 text-[#4B2E76] hover:bg-[#4B2E76]/10">{asset.fileType}</Badge>
+                <Button size="sm" variant="outline" className="rounded-full border-[#4B2E76]/25" onClick={() => setActiveAssetId(asset.id)}>
+                  Preview
+                </Button>
+                <Button
+                  size="sm"
+                  className="rounded-full bg-[#4B2E76] hover:bg-[#3d2560]"
+                  onClick={() => toast({ title: "Download started", description: `${asset.title} is downloading.` })}
+                >
+                  Download
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="space-y-3">
+          <h2 className="text-lg font-bold text-[#4B2E76]">In the news</h2>
           {mockPressCoverage.map((item) => (
-            <Card key={item.id} className="border-border bg-card transition-transform hover:-translate-y-1">
-              <CardContent className="p-6">
-                <div className="text-xs uppercase tracking-wide text-muted-foreground">{item.outlet}</div>
-                <p className="mt-2 text-sm text-foreground">{item.headline}</p>
-                <p className="mt-2 text-xs text-muted-foreground">{item.date}</p>
-              </CardContent>
-            </Card>
+            <div key={item.id} className="rounded-2xl border border-[#4B2E76]/8 bg-white/90 p-5 transition hover:border-[#4B2E76]/20">
+              <div className="text-[10px] font-bold uppercase tracking-widest text-[#4B2E76]/50">{item.outlet}</div>
+              <p className="mt-2 text-sm font-medium text-[#4B2E76]">{item.headline}</p>
+              <p className="mt-2 text-xs text-[#4B2E76]/55">{item.date}</p>
+            </div>
           ))}
         </div>
       </div>
@@ -80,30 +71,21 @@ export default function PressPage() {
       <Dialog open={Boolean(activeAsset)} onOpenChange={() => setActiveAssetId(null)}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle>{activeAsset?.title}</DialogTitle>
+            <DialogTitle className="text-[#4B2E76]">{activeAsset?.title}</DialogTitle>
           </DialogHeader>
           {activeAsset?.previewUrl && (
-            <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-border bg-muted">
-              <Image
-                src={activeAsset.previewUrl}
-                alt={activeAsset.title}
-                fill
-                className="object-cover"
-              />
+            <div className="relative aspect-video overflow-hidden rounded-2xl border border-[#4B2E76]/10 bg-[#4B2E76]/5">
+              <Image src={activeAsset.previewUrl} alt={activeAsset.title} fill className="object-cover" />
             </div>
           )}
-          <p className="text-sm text-muted-foreground">{activeAsset?.description}</p>
+          <p className="text-sm text-[#4B2E76]/70">{activeAsset?.description}</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setActiveAssetId(null)}>
+            <Button variant="outline" className="rounded-full border-[#4B2E76]/25" onClick={() => setActiveAssetId(null)}>
               Close
             </Button>
             <Button
-              onClick={() =>
-                toast({
-                  title: 'Download started',
-                  description: `${activeAsset?.title} is downloading.`,
-                })
-              }
+              className="rounded-full bg-[#4B2E76]"
+              onClick={() => toast({ title: "Download started", description: `${activeAsset?.title} is downloading.` })}
             >
               Download {activeAsset?.fileType}
             </Button>

@@ -4,10 +4,11 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus, Heart, ShoppingBag, Globe, ChevronDown } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus, ShoppingBag, Globe, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
+import { FAVICON_VER } from '@/components/shared/listing-ui'
 import { cn } from '@/lib/utils'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
@@ -136,7 +137,7 @@ export function Navbar() {
               </div>
               <Link href="/" className="group flex max-w-[min(100%,12rem)] min-w-0 items-center justify-center gap-2 justify-self-center sm:max-w-none sm:gap-2.5">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-[#4B2E76]/8 p-1.5 ring-1 ring-[#4B2E76]/10 sm:h-10 sm:w-10">
-                  <img src="/favicon.png?v=20260401" alt="" width="40" height="40" className="h-full w-full object-contain" />
+                  <img src={`/favicon.png?v=${FAVICON_VER}`} alt="" width="40" height="40" className="h-full w-full object-contain" />
                 </span>
                 <span className="min-w-0">
                   <span className="block truncate font-semibold leading-tight tracking-[-0.04em] text-[#4B2E76] sm:text-lg">{SITE_CONFIG.name}</span>
@@ -147,11 +148,6 @@ export function Navbar() {
                 <Button variant="ghost" size="icon" className="rounded-full text-[#4B2E76] hover:bg-[#4B2E76]/10" asChild>
                   <Link href="/search" aria-label="Search">
                     <Search className="h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button variant="ghost" size="icon" className="hidden rounded-full text-[#4B2E76] hover:bg-[#4B2E76]/10 sm:inline-flex" asChild>
-                  <Link href="/dashboard/saved" aria-label="Saved">
-                    <Heart className="h-5 w-5" />
                   </Link>
                 </Button>
                 {isAuthenticated ? (
@@ -227,7 +223,7 @@ export function Navbar() {
         <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
           <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-2">
             <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', style.logo)}>
-              <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+              <img src={`/favicon.png?v=${FAVICON_VER}`} alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
             </div>
             <div className="min-w-0 hidden sm:block">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>

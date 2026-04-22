@@ -10,6 +10,7 @@ import { CATEGORY_OPTIONS, normalizeCategory } from '@/lib/categories'
 import { taskIntroCopy } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { TASK_LIST_PAGE_OVERRIDE_ENABLED, TaskListPageOverride } from '@/overrides/task-list-page'
+import { ListingsCreateCta } from '@/components/tasks/listings-create-cta'
 
 const taskIcons: Record<TaskKey, any> = {
   listing: Building2,
@@ -132,10 +133,15 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         {layoutKey === 'listing-directory' || layoutKey === 'listing-showcase' ? (
           <section className="mb-10 grid gap-8 font-sans lg:mb-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
             <div className={`rounded-[2rem] p-7 sm:p-8 ${ui.panel}`}>
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#4B2E76]/55">
-                <Icon className="h-4 w-4 text-[#4B2E76]" /> {taskConfig?.label || 'Listings'}
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.22em] text-[#4B2E76]/55">
+                    <Icon className="h-4 w-4 text-[#4B2E76]" /> {taskConfig?.label || 'Listings'}
+                  </div>
+                  <h1 className="mt-4 text-3xl font-bold tracking-[-0.04em] text-[#4B2E76] sm:text-4xl">Most loved listings</h1>
+                </div>
+                {task === 'listing' ? <ListingsCreateCta /> : null}
               </div>
-              <h1 className="mt-4 text-3xl font-bold tracking-[-0.04em] text-[#4B2E76] sm:text-4xl">Most loved listings</h1>
               <p className={`mt-4 max-w-2xl text-sm leading-7 ${ui.muted}`}>
                 {taskConfig?.description} Browse a soft grid, compare entries, and open a listing when you want the full story—designed to feel as calm as the home page.
               </p>

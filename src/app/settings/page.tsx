@@ -236,7 +236,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F5E6D3] text-[#2d1b45]">
       <NavbarShell />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
