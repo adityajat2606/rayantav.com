@@ -28,7 +28,6 @@ const footerLinks = {
     { name: 'About', href: '/about' },
     { name: 'Team', href: '/team' },
     { name: 'Careers', href: '/careers' },
-    { name: 'Blog', href: '/blog' },
     { name: 'Press', href: '/press' },
   ],
   resources: [
@@ -62,18 +61,28 @@ export function Footer() {
 
   if (recipe.footer === 'minimal-footer') {
     return (
-      <footer className="border-t border-[#d7deca] bg-[#f4f6ef] text-[#1f2617]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <footer className="border-t border-[#4B2E76]/10 bg-white text-[#4B2E76]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div>
-            <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
-            <p className="mt-1 text-sm text-[#56604b]">{SITE_CONFIG.description}</p>
+            <p className="text-lg font-bold tracking-[-0.03em]">{SITE_CONFIG.name}</p>
+            <p className="mt-1 max-w-md text-sm text-[#4B2E76]/70">{SITE_CONFIG.description}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {enabledTasks.slice(0, 5).map((task) => (
-              <Link key={task.key} href={task.route} className="rounded-lg border border-[#d7deca] bg-white px-3 py-2 text-sm font-medium text-[#1f2617] hover:bg-[#ebefdf]">
+              <Link
+                key={task.key}
+                href={task.route}
+                className="rounded-full border-2 border-[#4B2E76]/15 bg-white px-4 py-2 text-sm font-semibold text-[#4B2E76] transition hover:border-[#4B2E76] hover:bg-[#4B2E76] hover:text-white"
+              >
                 {task.label}
               </Link>
             ))}
+            <Link href="/search" className="rounded-full border border-[#4B2E76]/20 px-4 py-2 text-sm font-medium text-[#4B2E76]/80 hover:bg-[#4B2E76]/5">
+              Search
+            </Link>
+            <Link href="/contact" className="rounded-full border border-[#4B2E76]/20 px-4 py-2 text-sm font-medium text-[#4B2E76]/80 hover:bg-[#4B2E76]/5">
+              Contact
+            </Link>
           </div>
         </div>
       </footer>

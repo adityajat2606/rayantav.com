@@ -1,22 +1,44 @@
-import Link from 'next/link'
-import { Bookmark, Building2, FileText, Image as ImageIcon, Sparkles } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+import { Bookmark, Building2, FileText, Image as ImageIcon } from 'lucide-react'
 import { NavbarShell } from '@/components/shared/navbar-shell'
 import { Footer } from '@/components/shared/footer'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind } from '@/design/factory/get-product-kind'
 import { REGISTER_PAGE_OVERRIDE_ENABLED, RegisterPageOverride } from '@/overrides/register-page'
+import { RegisterForm } from '@/components/auth/register-form'
 
-function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
+type RegisterConfig = {
+  shell: string
+  panel: string
+  side: string
+  muted: string
+  action: string
+  icon: LucideIcon
+  title: string
+  body: string
+  formLabelClass: string
+  bulletClass: string
+  bullets: string[]
+}
+
+function getRegisterConfig(kind: ReturnType<typeof getProductKind>): RegisterConfig {
   if (kind === 'directory') {
     return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      side: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
+      shell: 'bg-[#F5E6D3] text-[#2d1b45]',
+      panel: 'border border-[#4B2E76]/10 bg-white shadow-[0_20px_50px_rgba(75,46,118,0.08)]',
+      side: 'border border-[#4B2E76]/10 bg-white/80',
+      muted: 'text-[#4B2E76]/70',
+      action: 'bg-[#4B2E76] text-white hover:bg-[#3d2560]',
       icon: Building2,
-      title: 'Create a business-ready account',
-      body: 'List services, manage locations, and activate trust signals with a proper directory workflow.',
+      title: 'Create your listing account',
+      body: 'Post and manage listings, keep contact details current, and return to a dashboard that matches the public site experience.',
+      formLabelClass: 'text-[#4B2E76]/55',
+      bulletClass: 'rounded-[1.5rem] border border-[#4B2E76]/10 bg-white/50 px-4 py-4 text-sm text-[#4B2E76]/90',
+      bullets: [
+        'Listing-first tools without extra product clutter',
+        'Sign in once; your session stays on this device',
+        'Match the public purple & cream design language',
+      ],
     }
   }
   if (kind === 'editorial') {
@@ -29,6 +51,9 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
       icon: FileText,
       title: 'Start your contributor workspace',
       body: 'Create a profile for essays, issue drafts, editorial review, and publication scheduling.',
+      formLabelClass: 'opacity-70',
+      bulletClass: 'rounded-[1.5rem] border border-current/10 px-4 py-4 text-sm',
+      bullets: ['Editorial workflow aligned to the publication', 'Review and scheduling without a generic admin shell', 'Reader-first layout preserved across surfaces'],
     }
   }
   if (kind === 'visual') {
@@ -41,6 +66,9 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
       icon: ImageIcon,
       title: 'Set up your creator profile',
       body: 'Launch a visual-first account with gallery publishing, identity surfaces, and profile-led discovery.',
+      formLabelClass: 'opacity-70',
+      bulletClass: 'rounded-[1.5rem] border border-white/10 px-4 py-4 text-sm',
+      bullets: ['Gallery-like publishing surfaces', 'Creator identity without a washed-out dashboard', 'Motion and contrast tuned for visual work'],
     }
   }
   return {
@@ -52,6 +80,9 @@ function getRegisterConfig(kind: ReturnType<typeof getProductKind>) {
     icon: Bookmark,
     title: 'Create a curator account',
     body: 'Build shelves, save references, and connect collections to your profile without a generic feed setup.',
+    formLabelClass: 'opacity-70',
+    bulletClass: 'rounded-[1.5rem] border border-current/10 px-4 py-4 text-sm',
+    bullets: ['Curated collections and saved boards', 'Calmer metadata than a generic feed', 'Return visits without noisy defaults'],
   }
 }
 
@@ -75,28 +106,17 @@ export default function RegisterPage() {
             <h1 className="mt-5 text-4xl font-semibold tracking-[-0.05em]">{config.title}</h1>
             <p className={`mt-5 text-sm leading-8 ${config.muted}`}>{config.body}</p>
             <div className="mt-8 grid gap-4">
-              {['Different onboarding per product family', 'No repeated one-size-fits-all shell', 'Profile, publishing, and discovery aligned'].map((item) => (
-                <div key={item} className="rounded-[1.5rem] border border-current/10 px-4 py-4 text-sm">{item}</div>
+              {config.bullets.map((item) => (
+                <div key={item} className={config.bulletClass}>
+                  {item}
+                </div>
               ))}
             </div>
           </div>
 
           <div className={`rounded-[2rem] p-8 ${config.panel}`}>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Create account</p>
-            <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Full name" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Password" type="password" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="What are you creating or publishing?" />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${config.action}`}>Create account</button>
-            </form>
-            <div className={`mt-6 flex items-center justify-between text-sm ${config.muted}`}>
-              <span>Already have an account?</span>
-              <Link href="/login" className="inline-flex items-center gap-2 font-semibold hover:underline">
-                <Sparkles className="h-4 w-4" />
-                Sign in
-              </Link>
-            </div>
+            <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${config.formLabelClass}`}>Create account</p>
+            <RegisterForm actionClass={config.action} mutedClass={config.muted} useLuxuryInputs={productKind === 'directory'} />
           </div>
         </section>
       </main>
