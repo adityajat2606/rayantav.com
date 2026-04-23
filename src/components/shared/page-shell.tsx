@@ -16,25 +16,21 @@ export function PageShell({
   children?: ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F5E6D3] font-sans text-[#2d1b45]">
       <NavbarShell />
       <main>
-        <section className="border-b border-border bg-secondary/30">
+        <section className="border-b border-[#4B2E76]/10 bg-white/80">
           <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h1 className="text-3xl font-bold text-foreground">{title}</h1>
-                {description && (
-                  <p className="mt-2 max-w-2xl text-muted-foreground">{description}</p>
-                )}
+                <h1 className="text-3xl font-bold tracking-[-0.04em] text-[#4B2E76]">{title}</h1>
+                {description && <p className="mt-2 max-w-2xl text-[#4B2E76]/70">{description}</p>}
               </div>
               {actions && <div className="flex flex-wrap gap-3">{actions}</div>}
             </div>
           </div>
         </section>
-        <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
-          {children}
-        </section>
+        <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">{children}</section>
       </main>
       <Footer />
     </div>

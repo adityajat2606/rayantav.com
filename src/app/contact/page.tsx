@@ -9,11 +9,11 @@ import { CONTACT_PAGE_OVERRIDE_ENABLED, ContactPageOverride } from '@/overrides/
 function getTone(kind: ReturnType<typeof getProductKind>) {
   if (kind === 'directory') {
     return {
-      shell: 'bg-[#f8fbff] text-slate-950',
-      panel: 'border border-slate-200 bg-white',
-      soft: 'border border-slate-200 bg-slate-50',
-      muted: 'text-slate-600',
-      action: 'bg-slate-950 text-white hover:bg-slate-800',
+      shell: 'bg-[#F5E6D3] text-[#2d1b45]',
+      panel: 'border border-[#4B2E76]/10 bg-white shadow-[0_20px_50px_rgba(75,46,118,0.08)]',
+      soft: 'border border-[#4B2E76]/10 bg-white/80',
+      muted: 'text-[#4B2E76]/70',
+      action: 'rounded-full bg-[#4B2E76] text-white hover:bg-[#3d2560]',
     }
   }
   if (kind === 'editorial') {
@@ -54,9 +54,9 @@ export default function ContactPage() {
   const lanes =
     productKind === 'directory'
       ? [
-          { icon: Building2, title: 'Business onboarding', body: 'Add listings, verify operational details, and bring your business surface live quickly.' },
-          { icon: Phone, title: 'Partnership support', body: 'Talk through bulk publishing, local growth, and operational setup questions.' },
-          { icon: MapPin, title: 'Coverage requests', body: 'Need a new geography or category lane? We can shape the directory around it.' },
+          { icon: Building2, title: 'Listings & verification', body: 'Help with new listings, category placement, and keeping business details accurate and up to date.' },
+          { icon: Phone, title: 'Partnerships', body: 'Bulk onboarding, co-marketing, and ways to feature trusted partners in the directory.' },
+          { icon: MapPin, title: 'Coverage & regions', body: 'Ask about expanding categories, new cities, or niche verticals in the catalog.' },
         ]
       : productKind === 'editorial'
         ? [
@@ -82,9 +82,12 @@ export default function ContactPage() {
       <main className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] opacity-70">Contact {SITE_CONFIG.name}</p>
-            <h1 className="mt-4 text-5xl font-semibold tracking-[-0.05em]">A support page that matches the product, not a generic contact form.</h1>
-            <p className={`mt-5 max-w-2xl text-sm leading-8 ${tone.muted}`}>Tell us what you are trying to publish, fix, or launch. We will route it through the right lane instead of forcing every request into the same support bucket.</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4B2E76]/50">Contact {SITE_CONFIG.name}</p>
+            <h1 className="mt-4 text-4xl font-bold tracking-[-0.05em] text-[#4B2E76] sm:text-5xl">Let us help with listings, partnerships, or the catalog.</h1>
+            <p className={`mt-5 max-w-2xl text-sm leading-8 ${tone.muted}`}>
+              Share a bit of context—what you are listing, where you are based, and what a good outcome looks like. We read every message and route
+              it to the right person instead of a generic queue.
+            </p>
             <div className="mt-8 space-y-4">
               {lanes.map((lane) => (
                 <div key={lane.title} className={`rounded-[1.6rem] p-5 ${tone.soft}`}>
@@ -97,13 +100,29 @@ export default function ContactPage() {
           </div>
 
           <div className={`rounded-[2rem] p-7 ${tone.panel}`}>
-            <h2 className="text-2xl font-semibold">Send a message</h2>
+            <h2 className="text-2xl font-bold text-[#4B2E76]">Send a message</h2>
+            <p className="mt-1 text-sm text-[#4B2E76]/60">Demo form—connects to your own backend when you wire it in.</p>
             <form className="mt-6 grid gap-4">
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Your name" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="Email address" />
-              <input className="h-12 rounded-xl border border-current/10 bg-transparent px-4 text-sm" placeholder="What do you need help with?" />
-              <textarea className="min-h-[180px] rounded-2xl border border-current/10 bg-transparent px-4 py-3 text-sm" placeholder="Share the full context so we can respond with the right next step." />
-              <button type="submit" className={`inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold ${tone.action}`}>Send message</button>
+              <input
+                className="h-12 rounded-xl border border-[#4B2E76]/12 bg-white px-4 text-sm text-[#4B2E76] placeholder:text-[#4B2E76]/40"
+                placeholder="Your name"
+              />
+              <input
+                className="h-12 rounded-xl border border-[#4B2E76]/12 bg-white px-4 text-sm text-[#4B2E76] placeholder:text-[#4B2E76]/40"
+                placeholder="Email address"
+                type="email"
+              />
+              <input
+                className="h-12 rounded-xl border border-[#4B2E76]/12 bg-white px-4 text-sm text-[#4B2E76] placeholder:text-[#4B2E76]/40"
+                placeholder="Topic (e.g. New listing, Partnership)"
+              />
+              <textarea
+                className="min-h-[180px] rounded-2xl border border-[#4B2E76]/12 bg-white px-4 py-3 text-sm text-[#4B2E76] placeholder:text-[#4B2E76]/40"
+                placeholder="Context, links, and the outcome you are hoping for."
+              />
+              <button type="submit" className={`inline-flex h-12 items-center justify-center px-6 text-sm font-semibold ${tone.action}`}>
+                Send message
+              </button>
             </form>
           </div>
         </section>
