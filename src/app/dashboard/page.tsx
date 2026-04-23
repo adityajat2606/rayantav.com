@@ -8,7 +8,6 @@ import {
   FileText,
   Store,
   Tag,
-  BarChart3,
   MessageSquare,
   Heart,
   Eye,
@@ -17,7 +16,6 @@ import {
   Plus,
   ArrowRight,
   Calendar,
-  Bell,
   Settings,
   ChevronRight,
   MoreHorizontal,
@@ -36,6 +34,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { NavbarShell } from "@/components/shared/navbar-shell"
+import { Footer } from "@/components/shared/footer"
 import { useAuth } from "@/lib/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { loadFromStorage, storageKeys } from "@/lib/local-storage"
@@ -204,8 +203,8 @@ export default function DashboardPage() {
 
   const contentData = useMemo(
     () => [
-      { name: "Articles", count: userArticles.length },
       { name: "Listings", count: userListings.length },
+      { name: "Articles", count: userArticles.length },
       { name: "Ads", count: userAds.length },
       { name: "Reviews", count: 0 },
     ],
@@ -256,53 +255,48 @@ export default function DashboardPage() {
   )
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#F5E6D3] font-sans text-[#2d1b45]">
       <NavbarShell />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground mt-1">
-              Welcome back, {user?.name || "User"}! Here's what's happening.
+            <h1 className="text-3xl font-bold tracking-[-0.04em] text-[#4B2E76]">Dashboard</h1>
+            <p className="mt-1 text-[#4B2E76]/70">
+              Welcome back, {user?.name || "User"}! Here is what is happening with your content.
             </p>
           </div>
           <div className="flex gap-3">
-                <Button variant="outline" size="icon" asChild>
-                  <Link href="/dashboard/notifications">
-                    <Bell className="h-4 w-4" />
-                  </Link>
-                </Button>
-            <Button variant="outline" size="icon" asChild>
+            <Button variant="outline" size="icon" asChild className="border-[#4B2E76]/20 bg-white text-[#4B2E76] hover:bg-[#4B2E76]/5">
               <Link href="/settings">
                 <Settings className="h-4 w-4" />
               </Link>
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create New
+                <Button className="rounded-full bg-[#4B2E76] text-white hover:bg-[#3d2560]">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Create
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/articles/new">
-                    <FileText className="h-4 w-4 mr-2" />
-                    New Article
+                  <Link href="/dashboard/listings/new">
+                    <Store className="mr-2 h-4 w-4" />
+                    New listing
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/listings/new">
-                    <Store className="h-4 w-4 mr-2" />
-                    New Listing
+                  <Link href="/dashboard/articles/new">
+                    <FileText className="mr-2 h-4 w-4" />
+                    New article
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link href="/dashboard/ads/new">
-                    <Tag className="h-4 w-4 mr-2" />
-                    New Ad
+                    <Tag className="mr-2 h-4 w-4" />
+                    New ad
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -318,11 +312,11 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-2xl border border-[#4B2E76]/10 bg-white p-6 shadow-sm"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <stat.icon className="h-5 w-5 text-primary" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#4B2E76]/10">
+                  <stat.icon className="h-5 w-5 text-[#4B2E76]" />
                 </div>
                 <Badge
                   variant="secondary"
@@ -355,7 +349,7 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-2xl border border-[#4B2E76]/10 bg-white p-6 shadow-sm"
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
@@ -433,17 +427,23 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-card rounded-xl border border-border"
+              className="overflow-hidden rounded-2xl border border-[#4B2E76]/10 bg-white shadow-sm"
             >
-              <Tabs defaultValue="articles" className="w-full">
+              <Tabs defaultValue="listings" className="w-full">
                 <div className="px-6 pt-6">
-                  <h2 className="text-lg font-semibold text-foreground mb-4">
-                    My Content
+                  <h2 className="mb-4 text-lg font-semibold text-[#4B2E76]">
+                    My content
                   </h2>
-                  <TabsList className="w-full justify-start bg-muted/50">
-                    <TabsTrigger value="articles">Articles</TabsTrigger>
-                    <TabsTrigger value="listings">Listings</TabsTrigger>
-                    <TabsTrigger value="ads">Ads</TabsTrigger>
+                  <TabsList className="w-full justify-start rounded-2xl bg-[#4B2E76]/5 p-1">
+                    <TabsTrigger value="listings" className="rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#4B2E76] data-[state=active]:shadow-sm">
+                      Listings
+                    </TabsTrigger>
+                    <TabsTrigger value="articles" className="rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#4B2E76] data-[state=active]:shadow-sm">
+                      Articles
+                    </TabsTrigger>
+                    <TabsTrigger value="ads" className="rounded-xl data-[state=active]:bg-white data-[state=active]:text-[#4B2E76] data-[state=active]:shadow-sm">
+                      Ads
+                    </TabsTrigger>
                   </TabsList>
                 </div>
 
@@ -659,7 +659,7 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-2xl border border-[#4B2E76]/10 bg-white p-6 shadow-sm"
             >
               <h2 className="text-lg font-semibold text-foreground mb-4">
                 Content Distribution
@@ -698,15 +698,10 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-2xl border border-[#4B2E76]/10 bg-white p-6 shadow-sm"
             >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-foreground">
-                  Recent Activity
-                </h2>
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/dashboard/notifications">View all</Link>
-                </Button>
+              <div className="mb-4">
+                <h2 className="text-lg font-semibold text-foreground">Recent activity</h2>
               </div>
               <div className="space-y-4">
                 {recentActivity.map((activity) => (
@@ -737,38 +732,38 @@ export default function DashboardPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="bg-card rounded-xl border border-border p-6"
+              className="rounded-2xl border border-[#4B2E76]/10 bg-white p-6 shadow-sm"
             >
-              <h2 className="text-lg font-semibold text-foreground mb-4">
-                Quick Actions
+              <h2 className="mb-4 text-lg font-semibold text-[#4B2E76]">
+                Quick actions
               </h2>
               <div className="space-y-2">
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/dashboard/articles/new">
-                    <FileText className="h-4 w-4 mr-3" />
-                    Write new article
-                    <ChevronRight className="h-4 w-4 ml-auto" />
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
+                <Button variant="outline" className="w-full justify-start border-[#4B2E76]/20 text-[#4B2E76] hover:bg-[#4B2E76]/5" asChild>
                   <Link href="/dashboard/listings/new">
-                    <Store className="h-4 w-4 mr-3" />
-                    Add business listing
-                    <ChevronRight className="h-4 w-4 ml-auto" />
+                    <Store className="mr-3 h-4 w-4" />
+                    New listing
+                    <ChevronRight className="ml-auto h-4 w-4" />
                   </Link>
                 </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
+                <Button variant="outline" className="w-full justify-start border-[#4B2E76]/20 text-[#4B2E76] hover:bg-[#4B2E76]/5" asChild>
+                  <Link href="/listings">
+                    <Eye className="mr-3 h-4 w-4" />
+                    Browse public listings
+                    <ChevronRight className="ml-auto h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full justify-start border-[#4B2E76]/20 text-[#4B2E76] hover:bg-[#4B2E76]/5" asChild>
+                  <Link href="/dashboard/articles/new">
+                    <FileText className="mr-3 h-4 w-4" />
+                    New article
+                    <ChevronRight className="ml-auto h-4 w-4" />
+                  </Link>
+                </Button>
+                <Button variant="outline" className="w-full justify-start border-[#4B2E76]/20 text-[#4B2E76] hover:bg-[#4B2E76]/5" asChild>
                   <Link href="/dashboard/ads/new">
-                    <Tag className="h-4 w-4 mr-3" />
-                    Post classified ad
-                    <ChevronRight className="h-4 w-4 ml-auto" />
-                  </Link>
-                </Button>
-                <Button variant="outline" className="w-full justify-start" asChild>
-                  <Link href="/sbm">
-                    <BarChart3 className="h-4 w-4 mr-3" />
-                    Open Social Bookmarks
-                    <ChevronRight className="h-4 w-4 ml-auto" />
+                    <Tag className="mr-3 h-4 w-4" />
+                    New ad
+                    <ChevronRight className="ml-auto h-4 w-4" />
                   </Link>
                 </Button>
               </div>
@@ -776,6 +771,7 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

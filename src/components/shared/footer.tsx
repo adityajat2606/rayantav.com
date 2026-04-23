@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { FileText, Building2, LayoutGrid, Tag, Github, Twitter, Linkedin, Image as ImageIcon, User, ArrowRight, Sparkles } from 'lucide-react'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
+import { FAVICON_VER } from '@/components/shared/listing-ui'
 import { siteContent } from '@/config/site.content'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { FOOTER_OVERRIDE_ENABLED, FooterOverride } from '@/overrides/footer'
@@ -28,7 +29,6 @@ const footerLinks = {
     { name: 'About', href: '/about' },
     { name: 'Team', href: '/team' },
     { name: 'Careers', href: '/careers' },
-    { name: 'Blog', href: '/blog' },
     { name: 'Press', href: '/press' },
   ],
   resources: [
@@ -62,18 +62,28 @@ export function Footer() {
 
   if (recipe.footer === 'minimal-footer') {
     return (
-      <footer className="border-t border-[#d7deca] bg-[#f4f6ef] text-[#1f2617]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <footer className="border-t border-[#4B2E76]/10 bg-white text-[#4B2E76]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-10 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <div>
-            <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
-            <p className="mt-1 text-sm text-[#56604b]">{SITE_CONFIG.description}</p>
+            <p className="text-lg font-bold tracking-[-0.03em]">{SITE_CONFIG.name}</p>
+            <p className="mt-1 max-w-md text-sm text-[#4B2E76]/70">{SITE_CONFIG.description}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2">
             {enabledTasks.slice(0, 5).map((task) => (
-              <Link key={task.key} href={task.route} className="rounded-lg border border-[#d7deca] bg-white px-3 py-2 text-sm font-medium text-[#1f2617] hover:bg-[#ebefdf]">
+              <Link
+                key={task.key}
+                href={task.route}
+                className="rounded-full border-2 border-[#4B2E76]/15 bg-white px-4 py-2 text-sm font-semibold text-[#4B2E76] transition hover:border-[#4B2E76] hover:bg-[#4B2E76] hover:text-white"
+              >
                 {task.label}
               </Link>
             ))}
+            <Link href="/search" className="rounded-full border border-[#4B2E76]/20 px-4 py-2 text-sm font-medium text-[#4B2E76]/80 hover:bg-[#4B2E76]/5">
+              Search
+            </Link>
+            <Link href="/contact" className="rounded-full border border-[#4B2E76]/20 px-4 py-2 text-sm font-medium text-[#4B2E76]/80 hover:bg-[#4B2E76]/5">
+              Contact
+            </Link>
           </div>
         </div>
       </footer>
@@ -88,7 +98,7 @@ export function Footer() {
             <div className="rounded-[2rem] border border-white/10 bg-white/5 p-7">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/12 bg-white/8 p-1.5">
-                  <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                  <img src={`/favicon.png?v=${FAVICON_VER}`} alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
                 </div>
                 <div>
                   <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
@@ -180,7 +190,7 @@ export function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-3">
               <div className="h-11 w-11 overflow-hidden rounded-2xl border border-slate-200 bg-white p-1 shadow-sm">
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
+                <img src={`/favicon.png?v=${FAVICON_VER}`} alt={`${SITE_CONFIG.name} logo`} width="44" height="44" className="h-full w-full object-contain" />
               </div>
               <div>
                 <span className="block text-lg font-semibold">{SITE_CONFIG.name}</span>

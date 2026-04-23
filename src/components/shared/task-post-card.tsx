@@ -115,47 +115,50 @@ export function TaskPostCard({
   const isDirectorySurface = isDirectoryProduct && (variant === 'listing' || variant === 'classified' || variant === 'profile')
 
   if (isDirectorySurface) {
-    const cardTone = recipe.brandPack === 'market-utility'
-      ? {
-          frame: 'rounded-[1.75rem] border border-[#d7deca] bg-white shadow-[0_18px_44px_rgba(64,76,34,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(64,76,34,0.14)]',
-          badge: 'bg-[#1f2617] text-[#edf5dc]',
-          muted: 'text-[#5b664c]',
-          title: 'text-[#1f2617]',
-          cta: 'text-[#1f2617]',
-        }
-      : {
-          frame: 'rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_44px_rgba(15,23,42,0.08)] hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(15,23,42,0.14)]',
-          badge: 'bg-slate-950 text-white',
-          muted: 'text-slate-600',
-          title: 'text-slate-950',
-          cta: 'text-slate-950',
-        }
+    const cardTone = {
+      frame:
+        'rounded-[1.1rem] border border-[#4B2E76]/12 bg-white shadow-[0_16px_40px_rgba(75,46,118,0.1)] hover:-translate-y-0.5 hover:shadow-[0_22px_50px_rgba(75,46,118,0.15)]',
+      badge: 'bg-[#4B2E76] text-white',
+      muted: 'text-[#4B2E76]/70',
+      title: 'text-[#4B2E76]',
+      cta: 'text-[#4B2E76]',
+    }
 
     return (
       <Link href={href} className={`group flex h-full flex-col overflow-hidden transition duration-300 ${cardTone.frame}`}>
-        <div className="relative aspect-[16/11] overflow-hidden bg-slate-100">
+        <div className="relative aspect-[16/11] overflow-hidden bg-[#ede4f7]">
           <ContentImage src={image} alt={altText} fill sizes={imageSizes} quality={75} className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" intrinsicWidth={960} intrinsicHeight={720} />
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4">
-            <span className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] ${cardTone.badge}`}>
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-3 sm:p-4">
+            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] sm:px-3 sm:text-[10px] sm:tracking-[0.18em] ${cardTone.badge}`}>
               <Tag className="h-3.5 w-3.5" />
               {category}
             </span>
-            <span className="rounded-full bg-white/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-900">
+            <span className="rounded-full bg-white/90 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#4B2E76] sm:px-3 sm:text-[10px] sm:tracking-[0.18em]">
               {variant === 'classified' ? 'Open now' : 'Verified'}
             </span>
           </div>
         </div>
-        <div className="flex flex-1 flex-col p-5">
+        <div className="flex flex-1 flex-col p-4 sm:p-5">
           <div className="flex items-center justify-between gap-3">
-            <h3 className={`line-clamp-2 text-xl font-semibold leading-snug ${cardTone.title}`}>{post.title}</h3>
+            <h3 className={`line-clamp-2 text-base font-bold leading-snug sm:text-lg ${cardTone.title}`}>{post.title}</h3>
             <ArrowUpRight className={`h-5 w-5 shrink-0 ${cardTone.muted}`} />
           </div>
-          <p className={`mt-3 line-clamp-3 text-sm leading-7 ${cardTone.muted}`}>{getExcerpt(content.description || post.summary) || 'Explore this local listing.'}</p>
-          <div className="mt-5 flex flex-wrap gap-3 text-xs">
+          <p className={`mt-2 line-clamp-2 text-xs leading-6 sm:line-clamp-3 sm:text-sm sm:leading-7 ${cardTone.muted}`}>{getExcerpt(content.description || post.summary) || 'Explore this listing and see full details on the next page.'}</p>
+          <div className="mt-3 flex items-center gap-0.5 text-[#4B2E76] sm:mt-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <span key={i} className="text-xs leading-none" aria-hidden>
+                ★
+              </span>
+            ))}
+            <span className={`ml-1.5 text-[10px] font-medium sm:text-xs ${cardTone.muted}`}>· 4.8 (browse)</span>
+          </div>
+          <div className="mt-3 flex flex-wrap gap-2 text-[11px] sm:mt-4 sm:gap-3 sm:text-xs">
             {content.location ? <span className={`inline-flex items-center gap-1 ${cardTone.muted}`}><MapPin className="h-3.5 w-3.5" />{content.location}</span> : null}
             {content.email ? <span className={`inline-flex items-center gap-1 ${cardTone.muted}`}><Mail className="h-3.5 w-3.5" />{content.email}</span> : null}
           </div>
-          <div className={`mt-auto pt-5 text-sm font-semibold ${cardTone.cta}`}>{variant === 'classified' ? 'View offer' : 'View details'}</div>
+          <div className="mt-4 flex items-center justify-center rounded-full border-2 border-[#4B2E76] bg-white py-2.5 text-sm font-semibold text-[#4B2E76] transition group-hover:bg-[#4B2E76] group-hover:text-white sm:mt-auto sm:pt-4">
+            {variant === 'classified' ? 'View offer' : 'View · Quick add'}
+          </div>
         </div>
       </Link>
     )

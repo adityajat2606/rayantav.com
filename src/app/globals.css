@@ -258,6 +258,30 @@ body[data-site-shell="directory"] {
     linear-gradient(180deg, rgba(245, 250, 255, 0.98) 0%, rgba(255, 255, 255, 1) 40%, rgba(248, 250, 252, 1) 100%);
 }
 
+/* Premium listing / directory shell — cream & deep purple */
+body[data-site-shell="listing-home"] {
+  background-color: #f5e6d3;
+  background-image:
+    radial-gradient(circle at 12% 0%, rgba(75, 46, 118, 0.09), transparent 42%),
+    radial-gradient(circle at 88% 8%, rgba(75, 46, 118, 0.06), transparent 38%),
+    linear-gradient(180deg, #f5e6d3 0%, #faf3ea 45%, #f0e3d2 100%);
+  background-attachment: fixed;
+}
+
+body[data-site-shell="listing-home"]::before {
+  background-image: linear-gradient(rgba(75, 46, 118, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(75, 46, 118, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.12), transparent 65%);
+}
+
+body[data-site-shell="listing-home"] h1,
+body[data-site-shell="listing-home"] h2,
+body[data-site-shell="listing-home"] h3,
+body[data-site-shell="listing-home"] h4 {
+  font-family: var(--font-sans);
+  letter-spacing: -0.04em;
+}
+
 body[data-site-shell="editorial"] {
   background-image:
     radial-gradient(circle at top left, rgba(245, 158, 11, 0.14), transparent 22%),
