@@ -32,7 +32,7 @@ export function LoginForm({ actionClass, mutedClass }: Props) {
         window.localStorage.setItem('rayantav_login_at', new Date().toISOString())
       }
       toast({ title: 'Signed in', description: 'Your session is saved on this device.' })
-      router.push('/dashboard')
+      router.push('/')
     } catch {
       toast({ title: 'Sign in failed', description: 'Check your details and try again.' })
     }

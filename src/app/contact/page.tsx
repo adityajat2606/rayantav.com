@@ -51,6 +51,7 @@ export default function ContactPage() {
   const { recipe } = getFactoryState()
   const productKind = getProductKind(recipe)
   const tone = getTone(productKind)
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'support@rayantav.com'
   const lanes =
     productKind === 'directory'
       ? [
@@ -85,7 +86,7 @@ export default function ContactPage() {
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4B2E76]/50">Contact {SITE_CONFIG.name}</p>
             <h1 className="mt-4 text-4xl font-bold tracking-[-0.05em] text-[#4B2E76] sm:text-5xl">Let us help with listings, partnerships, or the catalog.</h1>
             <p className={`mt-5 max-w-2xl text-sm leading-8 ${tone.muted}`}>
-              Share a bit of context—what you are listing, where you are based, and what a good outcome looks like. We read every message and route
+              Share a bit of context - what you are listing, where you are based, and what a good outcome looks like. We read every message and route
               it to the right person instead of a generic queue.
             </p>
             <div className="mt-8 space-y-4">
@@ -101,7 +102,15 @@ export default function ContactPage() {
 
           <div className={`rounded-[2rem] p-7 ${tone.panel}`}>
             <h2 className="text-2xl font-bold text-[#4B2E76]">Send a message</h2>
-            <p className="mt-1 text-sm text-[#4B2E76]/60">Demo form—connects to your own backend when you wire it in.</p>
+            <p className="mt-1 text-sm text-[#4B2E76]/60">Demo form - connects to your own backend when you wire it in.</p>
+            <div className="mt-5">
+              <a
+                href={`mailto:${contactEmail}`}
+                className={`inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold ${tone.action}`}
+              >
+                Email us at {contactEmail}
+              </a>
+            </div>
             <form className="mt-6 grid gap-4">
               <input
                 className="h-12 rounded-xl border border-[#4B2E76]/12 bg-white px-4 text-sm text-[#4B2E76] placeholder:text-[#4B2E76]/40"
