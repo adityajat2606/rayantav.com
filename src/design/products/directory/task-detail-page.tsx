@@ -1,10 +1,24 @@
 import Link from 'next/link'
-import { ArrowRight, Globe, Mail, MapPin, Phone, ShieldCheck, Tag } from 'lucide-react'
+import { ArrowRight, Globe, Mail, MapPin, Phone, Tag } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { TaskPostCard } from '@/components/shared/task-post-card'
 import type { SitePost } from '@/lib/site-connector'
 import type { TaskKey } from '@/lib/site-config'
+
+const htmlToText = (value?: string | null) =>
+  (value || '')
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<\/?[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;/gi, "'")
+    .replace(/\s+/g, ' ')
+    .trim()
 
 export function DirectoryTaskDetailPage({
   task,
@@ -33,12 +47,15 @@ export function DirectoryTaskDetailPage({
   const phone = typeof content.phone === 'string' ? content.phone : ''
   const email = typeof content.email === 'string' ? content.email : ''
   const highlights = Array.isArray(content.highlights) ? content.highlights.filter((item): item is string => typeof item === 'string') : []
+  const heroImage = images[0]
+  const readableDescription = htmlToText(description) || 'Details coming soon.'
+
   const schemaPayload = {
     '@context': 'https://schema.org',
     '@type': task === 'profile' ? 'Organization' : 'LocalBusiness',
     name: post.title,
     description,
-    image: images[0],
+    image: heroImage,
     url: `${taskRoute}/${post.slug}`,
     address: location || undefined,
     telephone: phone || undefined,
@@ -46,100 +63,106 @@ export function DirectoryTaskDetailPage({
   }
 
   return (
-    <div className="min-h-screen bg-[#f8fbff] text-slate-950">
+    <div className="min-h-screen bg-[#f3f3f3] text-[#3a3a3a]">
       <SchemaJsonLd data={schemaPayload} />
-      <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <Link href={taskRoute} className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-950">
-          ← Back to {taskLabel}
+      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+        <Link href={taskRoute} className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[#6b6b6b] hover:text-[#2d2d2d]">
+          Back to {taskLabel}
         </Link>
 
-        <section className="grid gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-start">
-          <div>
-            <div className="overflow-hidden rounded-[2.2rem] border border-slate-200 bg-white shadow-[0_24px_70px_rgba(15,23,42,0.08)]">
-              <div className="relative h-[420px] overflow-hidden bg-slate-100">
-                <ContentImage src={images[0]} alt={post.title} fill className="object-cover" />
+        <section className="rounded-3xl border border-[#d9d9d9] bg-[#f3f3f3] p-6 sm:p-8">
+          <div className="grid gap-7 lg:grid-cols-[220px_1fr] lg:items-start">
+            <div className="mx-auto h-[190px] w-[190px] overflow-hidden rounded-full border border-[#cfcfcf] bg-[#d9d9d9]">
+              <div className="relative h-full w-full">
+                <ContentImage src={heroImage} alt={post.title} fill className="object-cover" />
               </div>
-              {images.length > 1 ? (
-                <div className="grid grid-cols-4 gap-3 p-4">
-                  {images.slice(1, 5).map((image) => (
-                    <div key={image} className="relative h-24 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-                      <ContentImage src={image} alt={post.title} fill className="object-cover" />
-                    </div>
-                  ))}
-                </div>
-              ) : null}
             </div>
 
-            <div className="mt-8 rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_20px_60px_rgba(15,23,42,0.06)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">About this {task}</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">Structured details instead of a generic content block.</h2>
-              <p className="mt-4 text-sm leading-8 text-slate-600">{description}</p>
-              {highlights.length ? (
-                <div className="mt-6 grid gap-3 md:grid-cols-2">
-                  {highlights.slice(0, 4).map((item) => (
-                    <div key={item} className="rounded-[1.4rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              ) : null}
+            <div>
+              <h1 className="text-4xl font-semibold tracking-[-0.02em] text-[#2f2f2f]">{post.title}</h1>
+              <div className="mt-3 h-px w-44 bg-[#cfcfcf]" />
+
+              <div className="mt-4 grid gap-2 text-base text-[#505050] sm:text-lg">
+                {phone ? (
+                  <div className="flex items-start gap-3">
+                    <Phone className="mt-0.5 h-4 w-4 text-[#7d7d7d]" />
+                    <span>{phone}</span>
+                  </div>
+                ) : null}
+                {location ? (
+                  <div className="flex items-start gap-3">
+                    <MapPin className="mt-0.5 h-4 w-4 text-[#7d7d7d]" />
+                    <span>{location}</span>
+                  </div>
+                ) : null}
+                {website ? (
+                  <div className="flex items-start gap-3">
+                    <Globe className="mt-0.5 h-4 w-4 text-[#7d7d7d]" />
+                    <a href={website} target="_blank" rel="noreferrer" className="break-all text-[#4f6f92] hover:text-[#2f4c6c]">
+                      {website}
+                    </a>
+                  </div>
+                ) : null}
+                {email ? (
+                  <div className="flex items-start gap-3">
+                    <Mail className="mt-0.5 h-4 w-4 text-[#7d7d7d]" />
+                    <span>{email}</span>
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="mt-4 h-px w-28 bg-[#cfcfcf]" />
+              <div className="mt-4">
+                {website ? (
+                  <a href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.12em] text-[#6d7f8f] hover:text-[#4f6172]">
+                    Claim now <ArrowRight className="h-4 w-4" />
+                  </a>
+                ) : (
+                  <Link href={taskRoute} className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.12em] text-[#6d7f8f] hover:text-[#4f6172]">
+                    Claim now <ArrowRight className="h-4 w-4" />
+                  </Link>
+                )}
+              </div>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-7 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">{category || taskLabel}</p>
-                  <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em]">{post.title}</h1>
-                </div>
-                <span className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white">
-                  <ShieldCheck className="h-3.5 w-3.5" /> Verified
-                </span>
-              </div>
-
-              <div className="mt-6 grid gap-3">
-                {location ? <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"><MapPin className="h-4 w-4" /> {location}</div> : null}
-                {phone ? <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"><Phone className="h-4 w-4" /> {phone}</div> : null}
-                {email ? <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"><Mail className="h-4 w-4" /> {email}</div> : null}
-                {website ? <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700"><Globe className="h-4 w-4" /> {website}</div> : null}
-              </div>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                {website ? <a href={website} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800">Visit website <ArrowRight className="h-4 w-4" /></a> : null}
-                <Link href={taskRoute} className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-950 hover:bg-slate-100">Browse more</Link>
-              </div>
-            </div>
-
-            {mapEmbedUrl ? (
-              <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-                <div className="border-b border-slate-200 px-6 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Location</p>
-                </div>
-                <iframe src={mapEmbedUrl} title={`${post.title} map`} className="h-[320px] w-full border-0" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-              </div>
-            ) : null}
-
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Quick trust cues</p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                {['Clear contact details', 'Stronger business framing', 'Map and location cues', 'Related surfaces nearby'].map((item) => (
-                  <div key={item} className="rounded-[1.3rem] border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-700">{item}</div>
+          <div className="mt-7">
+            <p className="text-[22px] leading-10 text-[#454545]">{readableDescription}</p>
+            {highlights.length ? (
+              <div className="mt-6 grid gap-3 md:grid-cols-2">
+                {highlights.slice(0, 4).map((item) => (
+                  <div key={item} className="rounded-xl border border-[#d7d7d7] bg-[#efefef] px-4 py-3 text-sm text-[#5a5a5a]">
+                    {item}
+                  </div>
                 ))}
               </div>
-            </div>
+            ) : null}
+          </div>
+
+          <div className="mt-8 overflow-hidden border border-[#cbcbcb] bg-[#e9e9e9]">
+            {mapEmbedUrl ? (
+              <iframe
+                src={mapEmbedUrl}
+                title={`${post.title} map`}
+                className="h-[420px] w-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            ) : (
+              <div className="flex h-[420px] items-center justify-center text-sm text-[#747474]">Map preview unavailable for this listing.</div>
+            )}
           </div>
         </section>
 
         {related.length ? (
           <section className="mt-14">
-            <div className="flex items-end justify-between gap-4 border-b border-slate-200 pb-6">
+            <div className="flex items-end justify-between gap-4 border-b border-[#d7d7d7] pb-6">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Related surfaces</p>
-                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em]">Keep browsing nearby matches.</h2>
+                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#737373]">Related surfaces</p>
+                <h2 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-[#2f2f2f]">Keep browsing nearby matches.</h2>
               </div>
-              <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-slate-600">
-                <Tag className="h-3.5 w-3.5" /> {taskLabel}
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#d7d7d7] bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#6f6f6f]">
+                <Tag className="h-3.5 w-3.5" /> {category || taskLabel}
               </span>
             </div>
             <div className="mt-8 grid gap-6 lg:grid-cols-3">

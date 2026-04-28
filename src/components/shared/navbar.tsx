@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus, ShoppingBag, Globe, ChevronDown } from 'lucide-react'
+import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus, Globe, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -157,12 +157,6 @@ export function Navbar() {
                     <Button variant="ghost" size="icon" className="hidden rounded-full text-[#4B2E76] hover:bg-[#4B2E76]/10 md:inline-flex" asChild>
                       <Link href="/login" aria-label="Account">
                         <User className="h-5 w-5" />
-                      </Link>
-                    </Button>
-                    <Button variant="ghost" size="icon" className="relative rounded-full text-[#4B2E76] hover:bg-[#4B2E76]/10" asChild>
-                      <Link href="/dashboard" aria-label="My dashboard">
-                        <ShoppingBag className="h-5 w-5" />
-                        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#4B2E76] px-1 text-[9px] font-bold text-white">0</span>
                       </Link>
                     </Button>
                     <Button size="sm" asChild className="ml-0.5 hidden h-9 rounded-full border border-[#4B2E76] bg-white px-3 text-xs font-semibold text-[#4B2E76] shadow-none hover:bg-[#4B2E76] hover:text-white sm:inline-flex">
