@@ -2,9 +2,7 @@ import Link from 'next/link'
 import { Compass, HeartHandshake, Sparkles, Target } from 'lucide-react'
 import { PageShell } from '@/components/shared/page-shell'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { L } from '@/components/shared/listing-ui'
-import { mockTeamMembers } from '@/data/mock-data'
 import { SITE_CONFIG } from '@/lib/site-config'
 
 const stats = [
@@ -83,39 +81,6 @@ export default function AboutPage() {
             )
           })}
         </div>
-
-        <section className={L.card}>
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <p className={L.label}>People behind the product</p>
-              <h2 className="mt-2 text-2xl font-bold text-[#4B2E76]">Team & contributors</h2>
-              <p className="mt-2 max-w-2xl text-sm text-[#4B2E76]/70">
-                A small group of designers, engineers, and community folks who care about legible metadata and fast paths to contact.
-              </p>
-            </div>
-            <Button asChild variant="outline" className="rounded-full border-[#4B2E76]/25 text-[#4B2E76]">
-              <Link href="/team">Open directory</Link>
-            </Button>
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {mockTeamMembers.map((member) => (
-              <div key={member.id} className="flex flex-col rounded-2xl border border-[#4B2E76]/8 bg-white/80 p-4 transition hover:border-[#4B2E76]/20">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12 border border-[#4B2E76]/10">
-                    <AvatarImage src={member.avatar} alt={member.name} />
-                    <AvatarFallback className="bg-[#4B2E76]/10 text-[#4B2E76]">{member.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-semibold text-[#4B2E76]">{member.name}</p>
-                    <p className="text-xs text-[#4B2E76]/55">{member.role}</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-sm leading-relaxed text-[#4B2E76]/70">{member.bio}</p>
-                <p className="mt-2 text-xs text-[#4B2E76]/45">{member.location}</p>
-              </div>
-            ))}
-          </div>
-        </section>
 
         <div className="flex flex-wrap items-center justify-between gap-4 rounded-[2rem] border border-dashed border-[#4B2E76]/20 bg-[#4B2E76]/[0.03] px-6 py-8">
           <div className="flex items-start gap-3">

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Bookmark, Building2, Compass, FileText, Image as ImageIcon, LayoutGrid, MapPin, ShieldCheck, Star, Tag, User } from 'lucide-react'
 import { ContentImage } from '@/components/shared/content-image'
@@ -138,6 +137,10 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
   const featuredListings = (listingPosts.length ? listingPosts : classifiedPosts).slice(0, 4)
   const featuredTaskKey: TaskKey = listingPosts.length ? 'listing' : 'classified'
   const resultCount = featuredListings.length
+  const heroPreviewPost = featuredListings[0] || null
+  const heroPreviewHref = heroPreviewPost ? getTaskHref(featuredTaskKey, heroPreviewPost.slug) : null
+  const heroPreviewImage = getPostImage(heroPreviewPost)
+  const heroPreviewAlt = heroPreviewPost ? `${heroPreviewPost.title} preview` : 'Featured listing preview'
 
   return (
     <main className="font-sans">
@@ -181,16 +184,31 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
             </div>
 
             <div className={`relative overflow-hidden rounded-[2.25rem] border border-[#4B2E76]/10 bg-gradient-to-br from-[#e8d4f5]/40 to-[#F5E6D3] p-4 shadow-[0_20px_60px_rgba(75,46,118,0.1)]`}>
-              <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-[1.75rem] sm:mx-auto lg:max-w-none">
-                <Image
-                  src="/hero-listing-ref.png"
-                  alt="Featured listing preview"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                />
-              </div>
+              {heroPreviewHref ? (
+                <Link href={heroPreviewHref} className="group block">
+                  <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-[1.75rem] sm:mx-auto lg:max-w-none">
+                    <ContentImage
+                      src={heroPreviewImage}
+                      alt={heroPreviewAlt}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 45vw"
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-[1.75rem] sm:mx-auto lg:max-w-none">
+                  <ContentImage
+                    src={heroPreviewImage}
+                    alt={heroPreviewAlt}
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 45vw"
+                  />
+                </div>
+              )}
               <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-[#4B2E76]/8 bg-white/80 px-4 py-3 text-sm text-[#4B2E76]">
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 shrink-0" />
